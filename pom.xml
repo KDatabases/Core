@@ -14,4 +14,9 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
+    <scm>
+        <url>git://Sxtanna@gitlab.com:SXT-Databases/Core.git</url>
+        <connection>scm:git:git://Sxtanna@gitlab.com:SXT-Databases/Core.git</connection>
+    </scm>
+
 </project>

@@ -14,6 +14,10 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
+    <name>${project.artifactId}</name>
+    <description>Core "API", contains base classes for other wrappers</description>
+    <url>https://gitlab.com/SXT-Databases/Core</url>
+
     <scm>
         <url>git://Sxtanna@gitlab.com:SXT-Databases/Core.git</url>
         <connection>scm:git:git://Sxtanna@gitlab.com:SXT-Databases/Core.git</connection>

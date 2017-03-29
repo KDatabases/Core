@@ -16,11 +16,11 @@
 
     <name>${project.artifactId}</name>
     <description>Core "API", contains base classes for other wrappers</description>
-    <url>https://gitlab.com/SXT-Databases/Core</url>
+    <url>https://github.com/KDatabases/Core</url>
 
     <scm>
-        <url>git://Sxtanna@gitlab.com:SXT-Databases/Core.git</url>
-        <connection>scm:git:git://Sxtanna@gitlab.com:SXT-Databases/Core.git</connection>
+        <url>git://github.com/KDatabases/Core.git</url>
+        <connection>scm:git:git://github.com/KDatabases/Core.git</connection>
     </scm>
 
 </project>

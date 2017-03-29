@@ -1,4 +1,4 @@
-package com.sxtanna.database
+package com.sxtanna.database.base
 
 import com.sxtanna.database.config.DatabaseConfig
 import com.sxtanna.database.task.DatabaseTask

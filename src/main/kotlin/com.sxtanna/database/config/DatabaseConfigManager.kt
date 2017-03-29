@@ -1,6 +1,6 @@
-package com.sxtanna.database.base
+package com.sxtanna.database.config
 
-import com.sxtanna.database.Database
+import com.sxtanna.database.base.Database
 import com.sxtanna.database.config.DatabaseConfig
 import java.io.File
 

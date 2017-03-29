@@ -6,8 +6,7 @@ import java.io.File
 import java.io.FileWriter
 
 interface DatabaseConfig {
-
-
+	
 	companion object {
 
 		val gson = createGson()

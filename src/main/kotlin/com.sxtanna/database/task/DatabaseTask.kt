@@ -4,6 +4,7 @@ abstract class DatabaseTask<out R : AutoCloseable> {
 
 	abstract val resource : R
 
-	operator fun invoke(block: DatabaseTask<R>.() -> Unit) = this.block()
+	// Added Inline - Mr.Midnight
+	operator inline fun invoke(block: DatabaseTask<R>.() -> Unit) = this.block()
 
 }

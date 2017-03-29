@@ -2,8 +2,9 @@ package com.sxtanna.database.config
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.sxtanna.database.extensions.readJson
+import com.sxtanna.database.extensions.writeJsonTo
 import java.io.File
-import java.io.FileWriter
 
 interface DatabaseConfig {
 
@@ -25,14 +26,15 @@ interface DatabaseConfig {
 			if (file.exists().not()) return default
 
 			val text = file.useLines { buildString { it.forEach { append(it) }} }
-			return gson.fromJson(text, T::class.java)
+			return text.readJson<T>()
 		}
 
 		@PublishedApi
 		internal inline fun <reified T : DatabaseConfig> saveToFile(file : File, type: T) {
 			check(prepareWrite(file)) { "Failed to prepare file $file for writing" }
 
-			FileWriter(file).use { it.write(gson.toJson(type, T::class.java)) }
+			type.writeJsonTo(file)
+			//FileWriter(file).use { it.write(gson.toJson(type, T::class.java)) }
 		}
 
 

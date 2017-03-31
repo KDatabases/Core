@@ -3,6 +3,7 @@ package com.sxtanna.database.base
 import com.sxtanna.database.config.DatabaseConfig
 import com.sxtanna.database.task.DatabaseTask
 import com.sxtanna.database.type.Switch
+import java.util.function.Consumer
 
 /**
  * Base class that represents all database wrapper types
@@ -11,13 +12,14 @@ import com.sxtanna.database.type.Switch
  * @param [C] The config type
  * @param [T] The task type
  */
-abstract class Database<R : AutoCloseable, out C : DatabaseConfig, out T : DatabaseTask<R>> : Switch, (T.() -> Unit) -> Unit {
+abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseTask<R>> : Switch, (T.() -> Unit) -> Unit {
 
 	abstract val name : String
 	abstract protected val config : C
 
 	var isEnabled : Boolean = false
 		private set
+
 
 	/**
 	 * Attempt to enable this Database.
@@ -80,14 +82,43 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, out T : Datab
 	abstract protected fun createTask(resource : R) : T
 
 
+	/**
+	 * Attempt to pull a resource from the connection manager with checks.
+	 *
+	 * Checks
+	 * * If the database is enabled first
+	 * * If the resource is null before returning
+	 *
+	 * @throws IllegalStateException if any of the checks fail
+	 */
 	fun resource() : R {
 		check(isEnabled) { "Database $name is not enabled, resources cannot be pulled" }
 		return checkNotNull(poolResource()) { "Failed to get resource from database $name pool" }
 	}
 
 
+	/**
+	 * Invoke an action using this Database
+	 *
+	 * *Preferred function for Kotlin usage*
+	 *
+	 * @throws IllegalStateException if the resource can't be created
+	 * @see [resource]
+	 */
+	@Throws(IllegalStateException::class)
 	override fun invoke(block : T.() -> Unit) {
 		resource().use { createTask(it).block() }
 	}
+
+	/**
+	 * Invoke an action using this Database
+	 *
+	 * *Preferred function for Java usage*
+	 *
+	 * @throws IllegalStateException if the resource can't be created
+	 * @see [resource]
+	 */
+	@Throws(IllegalStateException::class)
+	operator fun invoke(block: Consumer<T>) = invoke { block.accept(this) }
 
 }

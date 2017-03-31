@@ -2,6 +2,7 @@ package com.sxtanna.database.base
 
 import com.sxtanna.database.config.DatabaseConfig
 import com.sxtanna.database.task.DatabaseTask
+import com.sxtanna.database.type.IDatabase
 import com.sxtanna.database.type.Switch
 import java.util.function.Consumer
 
@@ -12,7 +13,7 @@ import java.util.function.Consumer
  * @param [C] The config type
  * @param [T] The task type
  */
-abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseTask<R>> : Switch, (T.() -> Unit) -> Unit {
+abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseTask<R>> : IDatabase<R, T>, Switch {
 
 	abstract val name : String
 	abstract protected val config : C
@@ -109,9 +110,11 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 * @see [resource]
 	 */
 	@Throws(IllegalStateException::class)
-	override fun invoke(block : T.() -> Unit) {
+	@JvmSynthetic // This hides the function from Java, do tell if this has a negative impact
+	operator override fun invoke(block : T.() -> Unit) {
 		resource().use { createTask(it).block() }
 	}
+
 
 	/**
 	 * Invoke an action using this Database
@@ -122,6 +125,6 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 * @see [resource]
 	 */
 	@Throws(IllegalStateException::class)
-	operator fun invoke(block: Consumer<T>) = invoke { block.accept(this) }
+	override fun execute(block : Consumer<T>) = invoke { block.accept(this) }
 
 }

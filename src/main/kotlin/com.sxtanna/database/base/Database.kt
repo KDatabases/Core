@@ -28,6 +28,7 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 *
 	 * @throws IllegalStateException if already enabled
 	 */
+	@Throws(IllegalStateException::class)
 	override fun enable() {
 		check(isEnabled.not()) { "Database $name is already enabled" }
 
@@ -42,6 +43,7 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 *
 	 * @throws IllegalStateException if not enabled
 	 */
+	@Throws(IllegalStateException::class)
 	override fun disable() {
 		check(isEnabled) { "Database $name isn't enabled" }
 
@@ -91,6 +93,7 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 *
 	 * @throws IllegalStateException if any of the checks fail
 	 */
+	@Throws(IllegalStateException::class)
 	fun resource() : R {
 		check(isEnabled) { "Database $name is not enabled, resources cannot be pulled" }
 		return checkNotNull(poolResource()) { "Failed to get resource from database $name pool" }

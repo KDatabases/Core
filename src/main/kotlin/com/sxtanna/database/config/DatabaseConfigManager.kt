@@ -1,12 +1,13 @@
 package com.sxtanna.database.config
 
 import com.sxtanna.database.base.Database
-import com.sxtanna.database.config.DatabaseConfig
 import java.io.File
 
-interface DatabaseConfigManager<out C : DatabaseConfig, out D : Database<*, C, *>> {
+interface DatabaseConfigManager<C : DatabaseConfig, out D : Database<*, C, *>> {
 
-	operator fun get(file : File) : D
+	operator fun get(config : C) : D
+
+	operator fun get(file : File) = get(getConfig(file))
 
 	fun getConfig(file : File) : C
 

@@ -125,6 +125,6 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 * @see [resource]
 	 */
 	@Throws(IllegalStateException::class)
-	override fun execute(block : Consumer<T>) = invoke { block.accept(this) }
+	override fun execute(block : Consumer<@ParameterName("task") T>) = invoke { block.accept(this) }
 
 }

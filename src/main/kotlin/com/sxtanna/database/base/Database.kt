@@ -15,8 +15,8 @@ import java.util.function.Consumer
  */
 abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseTask<R>> : IDatabase<R, T>, Switch {
 
+	abstract val conf : C
 	abstract val name : String
-	abstract protected val config : C
 
 	var isEnabled : Boolean = false
 		private set

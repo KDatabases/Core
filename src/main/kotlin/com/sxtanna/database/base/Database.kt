@@ -62,12 +62,12 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 * Initialize the connection manager for this Database.
 	 * If this throws an exception it will disrupt the enable process and cause calls to [resource] to throw exceptions
 	 */
-	abstract protected fun load()
+	protected abstract fun load()
 
 	/**
 	 * Destroy the connection manager of this Database.
 	 */
-	abstract protected fun poison()
+	protected abstract fun poison()
 
 
 	/**
@@ -75,14 +75,14 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 *
 	 * @return The [R] or null
 	 */
-	abstract protected fun poolResource() : R?
+	protected abstract fun poolResource() : R?
 
 	/**
 	 * Create a [T] for execution
 	 *
 	 * @return [T] ready for execution
 	 */
-	abstract protected fun createTask(resource : R) : T
+	protected abstract fun createTask(resource : R) : T
 
 
 	/**
@@ -111,7 +111,7 @@ abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseT
 	 */
 	@Throws(IllegalStateException::class)
 	@JvmSynthetic // This hides the function from Java, do tell if this has a negative impact
-	operator override fun invoke(block : T.() -> Unit) {
+	override operator fun invoke(block : T.() -> Unit) {
 		resource().use { createTask(it).block() }
 	}
 

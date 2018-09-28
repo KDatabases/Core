@@ -4,6 +4,7 @@ import com.sxtanna.database.config.DatabaseConfig
 import com.sxtanna.database.task.DatabaseTask
 import com.sxtanna.database.type.IDatabase
 import com.sxtanna.database.type.Switch
+import java.io.Closeable
 import java.util.function.Consumer
 
 /**
@@ -13,7 +14,7 @@ import java.util.function.Consumer
  * @param [C] The config type
  * @param [T] The task type
  */
-abstract class Database<R : AutoCloseable, out C : DatabaseConfig, T : DatabaseTask<R>> : IDatabase<R, T>, Switch {
+abstract class Database<R : Closeable, out C : DatabaseConfig, T : DatabaseTask<R>> : IDatabase<R, T>, Switch {
 
 	abstract val conf : C
 	abstract val name : String
